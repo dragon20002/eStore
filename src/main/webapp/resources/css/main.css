@@ -1,0 +1,12 @@
+@charset "UTF-8";
+
+.container-wrapper {
+	margin: auto;
+	margin-top: 80px;
+	width: 50%;
+	padding: 10px;
+}
+
+footer {
+	margin-top: 80px;
+}
