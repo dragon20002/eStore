@@ -9,8 +9,9 @@
 		<p class="lead">새로운 제품을 추가합니다</p>
 
 		<sf:form
-			action="${ pageContext.request.contextPath }/admin/productInventory/addProduct"
-			method="post" modelAttribute="product">
+			action="${ pageContext.request.contextPath }/admin/productInventory/addProduct?${_csrf.parameterName}=${_csrf.token}"
+			method="post" modelAttribute="product"
+			enctype="multipart/form-data">
 
 			<div class="form-group">
 				<label for="name">Name</label>
@@ -50,6 +51,11 @@
 				<label for="manufacturer">Manufacturer</label>
 				<sf:input path="manufacturer" id="manufacturer" class="form-control" />
 				<sf:errors path="manufacturer" cssStyle="color: #ff0000" />
+			</div>
+
+			<div class="form-group">
+				<label for="productImage">Upload Picture</label>
+				<sf:input type="file" path="productImage" id="productImage" class="form-control" />
 			</div>
 
 			<input type="submit" value="추가" class="btn btn-danger">

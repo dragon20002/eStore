@@ -10,6 +10,7 @@
 		<table class="table table-striped">
 			<thead>
 				<tr class="bg-secondary text-warning">
+					<th>Thumbnail</th>
 					<th>Name</th>
 					<th>Category</th>
 					<th>Price</th>
@@ -22,6 +23,8 @@
 			<tbody>
 				<c:forEach var="product" items="${products }">
 					<tr>
+						<td><img alt="thumbnail" style="width: 50%"
+						 	src="<c:url value="/resources/images/${product.imageFilename }" />"/></td>
 						<td>${product.name }</td>
 						<td>${product.category }</td>
 						<td>${product.price }</td>

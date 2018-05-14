@@ -1,4 +1,5 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -17,20 +18,21 @@
 				<li class="nav-item"><a class="nav-link text-warning"
 					href="<c:url value="/products"/>">Products</a></li>
 				
-				<c:if test="${pageContext.request.userPrincipal.name != null }">
-					<c:if test="${pageContext.request.userPrincipal.name == 'haruu' }">
+				<sec:authorize access="isAuthenticated()">
+					<sec:authorize access="hasRole('ROLE_ADMIN')">
 						<li class="nav-item"><a class="nav-link text-warning" href="<c:url value="/admin/home" />">AdminPage</a></li>
-					</c:if>
+					</sec:authorize>
 
 					<li class="nav-item"><a class="nav-link text-warning" href="javascript:document.getElementById('logout').submit()">Logout</a></li>
 					<form id="logout" action="<c:url value="/logout" />" method="post">
 						<input type="hidden" name="${_csrf.parameterName }"
 							value="${_csrf.token }" />
 					</form>
-				</c:if>
-				
+				</sec:authorize>
+
 				<c:if test="${pageContext.request.userPrincipal.name == null }">
-					<li class="nav-item"><a class="nav-link text-warning" href="<c:url value="/admin/home" />">Login</a></li>
+					<li class="nav-item"><a class="nav-link text-warning" href="<c:url value="/login" />">Login</a></li>
+					<li class="nav-item"><a class="nav-link text-warning" href="<c:url value="/register" />">Register</a></li>
 				</c:if>
 			
 			</ul>
@@ -42,3 +44,18 @@
 		</div>
 	</nav>
 </header>
+
+<!-- 사용자이름으로 페이지 보여주거나 숨기기 -->
+<!-- 
+<c:if test="${pageContext.request.userPrincipal != null }">
+	<c:if test="${pageContext.request.userPrincipal.name == 'admin' }">
+		<li class="nav-item"><a class="nav-link text-warning" href="<c:url value="/admin/home" />">AdminPage</a></li>
+	</c:if>
+
+	<li class="nav-item"><a class="nav-link text-warning" href="javascript:document.getElementById('logout').submit()">Logout</a></li>
+	<form id="logout" action="<c:url value="/logout" />" method="post">
+		<input type="hidden" name="${_csrf.parameterName }"
+			value="${_csrf.token }" />
+	</form>
+</c:if>
+ -->				

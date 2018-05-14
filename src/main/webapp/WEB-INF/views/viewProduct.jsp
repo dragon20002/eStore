@@ -9,7 +9,7 @@
 			<c:set var="imageFilename"
 				value="/resources/images/${product.id}.jpg" />
 			<img src="<c:url value="${imageFilename}"/>" alt="product image"
-				style="width: 80%; min-width: 400px; max-width: 500px;" />
+				style="width: 50%; min-width: 400px; max-width: 500px;" />
 		</div>
 
 		<div class="col-md-6" style="padding-left: 50px; padding-top: 10px;">

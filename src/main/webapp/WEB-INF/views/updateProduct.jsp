@@ -8,8 +8,9 @@
 		<h2>Update Product</h2>
 		<p class="lead">제품 정보를 편집합니다</p>
 		
-		<sf:form action="${ pageContext.request.contextPath }/admin/productInventory/update"
-			method="post" modelAttribute="product">
+		<sf:form action="${ pageContext.request.contextPath }/admin/productInventory/update?${_csrf.parameterName}=${_csrf.token}"
+			method="post" modelAttribute="product"
+			enctype="multipart/form-data">
 
 			<sf:hidden path="id" />
 
@@ -45,6 +46,11 @@
 				<sf:input path="manufacturer" id="manufacturer" class="form-control" />
 			</div>
 
+			<div class="form-group">
+				<label for="productImage">Upload Picture</label>
+				<sf:input type="file" path="productImage" id="productImage" class="form-control" />
+			</div>
+			
 			<input type="submit" value="수정" class="btn btn-danger">
 			<a href="<c:url value="/admin/productInventory" />" class="btn btn-default">취소</a>
 
