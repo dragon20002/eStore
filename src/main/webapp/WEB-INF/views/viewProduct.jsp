@@ -2,13 +2,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<div class="container-wrapper jumbotron">
+<script src="<c:url value="/resources/js/controller.js" />"></script>
+
+<div class="container-wrapper jumbotron" ng-app="cartApp">
 
 	<div class="row" style="max-width: 1500px">
 		<div class="col-md-6" align="center">
-			<c:set var="imageFilename"
-				value="/resources/images/${product.id}.jpg" />
-			<img src="<c:url value="${imageFilename}"/>" alt="product image"
+			<img src="<c:url value="/resources/images/${product.imageFilename }" />" alt="product image"
 				style="width: 50%; min-width: 400px; max-width: 500px;" />
 		</div>
 
@@ -31,12 +31,28 @@
 			</table>
 			<h3 style="padding: 20px">￦ ${product.price }</h3>
 			
+			<br>
 		</div>
 
 	</div>
 
-	<div align="center" style="max-width: 1500px">
-		<a href="<c:url value="#" />" class="btn btn-danger">Order</a>
-		<a href="<c:url value="/products" />" class="btn btn-warning">Back</a>
+	<div align="center" style="max-width: 1500px" ng-controller="cartCtrl">
+	
+			<c:if test="${pageContext.request.userPrincipal.name != null }">
+				<p>
+					<button class="btn btn-danger" ng-click="addToCart('${product.id}')">
+						<i class="fa fa-shopping-cart"></i>
+						Order
+					</button>
+
+					<a href="<c:url value="/products" />" class="btn btn-warning">Back</a>
+					
+					<a href="<c:url value="/cart" />" class="btn btn-info">
+						<i class="fa fa-eye"></i>
+						View Cart
+					</a>
+				</p>
+			</c:if>
+			
 	</div>
 </div>

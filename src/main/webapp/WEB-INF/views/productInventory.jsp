@@ -6,7 +6,7 @@
 <div class="container-wrapper">
 	<div class="container">
 		<h2>Product Inventory</h2>
-		<p>제품 제고 현황</p>
+		<p>제품 재고 현황</p>
 		<table class="table table-striped">
 			<thead>
 				<tr class="bg-secondary text-warning">

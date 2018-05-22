@@ -38,7 +38,11 @@ public class User {
 	@OneToOne(optional = false, cascade = CascadeType.ALL)
 	@JoinColumn(unique = true)
 	private Address address;
-
+	
+	@OneToOne(optional = false, cascade = CascadeType.ALL)
+	@JoinColumn(unique = true)
+	private Cart cart;
+	
 	private boolean enabled = false;
 
 	private String authority;

@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.haruu.webframe2.model.Product;
 
 @Repository
-//@EnableTransactionManagement //TODO xml의 tx:annotation-driven과 중복되는 곳....오류나면 지울 것!
+@EnableTransactionManagement //TODO xml의 tx:annotation-driven과 중복되는 곳....오류나면 지울 것!
 @Transactional
 public class ProductDao {
 

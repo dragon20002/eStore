@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.haruu.webframe2.model.Address;
+import com.haruu.webframe2.model.Cart;
 import com.haruu.webframe2.model.User;
 import com.haruu.webframe2.service.UserService;
 
@@ -55,6 +56,7 @@ public class RegisterController {
 			user.setAuthority("ROLE_USER");
 
 		// persist new user
+		user.setCart(new Cart());
 		userService.addUser(user);
 
 		return "registerSuccess";

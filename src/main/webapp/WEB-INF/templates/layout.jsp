@@ -12,6 +12,10 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
+<!-- csrf -->
+<meta name="_csrf" content="${_csrf.token }" />
+<meta name="_csrf_header" content="${_csrf.headerName }" />
+
 <title><tiles:insertAttribute name="title" /></title>
 
 <!-- Bootstrap core CSS using taglib-->
@@ -27,9 +31,11 @@
 	crossorigin="anonymous">
 
 <!-- Custom styles for this template -->
-<link href="<c:url value="/resources/css/carousel.css"/>"
-	rel="stylesheet">
+<link href="<c:url value="/resources/css/carousel.css"/>" rel="stylesheet">
 <link href="<c:url value="/resources/css/main.css"/>" rel="stylesheet">
+
+<!-- AngularJS -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.10/angular.min.js"></script>
 
 </head>
 <body>
@@ -52,6 +58,5 @@
 		crossorigin="anonymous"></script>
 	<script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
 	<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-	<script src="../../../../assets/js/vendor/holder.min.js"></script>
 </body>
 </html>
