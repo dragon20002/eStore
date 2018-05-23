@@ -39,10 +39,17 @@
 						<td>{{item.product.price}}</td>
 						<td>{{item.quantity}}</td>
 						<td>{{item.totalPrice}}</td>
-						<td><a class="btn btn-danger" ng-click="removeFromCart(item.product.id)">
-							<i class="fa fa-minus"></i>
-							remove
-						</a></td>
+						<td>
+							<a class="btn btn-danger" ng-click="removeFromCart(item.product.id)">
+								<i class="fa fa-remove"></i>remove
+							</a>
+							<a class="btn btn-danger" ng-click="addToCart(item.product.id)">
+								<i class="fa fa-plus"></i>plus
+							</a>
+							<a class="btn btn-danger" ng-click="removeFromCart(item.product.id)">
+								<i class="fa fa-minus"></i>minus
+							</a>
+						</td>
 					</tr>
 					
 					<tr>
