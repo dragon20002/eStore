@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<script src="<c:url value="/resources/js/controller.js" />"></script>
+<script src="<c:url value="/resources/js/cartController.js" />"></script>
 
 <div class="container-wrapper jumbotron" ng-app="cartApp">
 
@@ -36,7 +36,7 @@
 
 	</div>
 
-	<div align="center" style="max-width: 1500px" ng-controller="cartCtrl">
+	<div align="center" style="max-width: 1500px" ng-controller="cartController">
 	
 			<c:if test="${pageContext.request.userPrincipal.name != null }">
 				<p>

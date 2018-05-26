@@ -33,7 +33,7 @@
 				</sec:authorize>
 				
 				<sec:authorize access="isAnonymous()">
-					<li class="nav-item"><a class="nav-link text-warning" href="<c:url value="/admin/home" />">Login</a></li>
+					<li class="nav-item"><a class="nav-link text-warning" href="<c:url value="/login" />">Login</a></li>
 					<li class="nav-item"><a class="nav-link text-warning" href="<c:url value="/register" />">Register</a></li>
 				</sec:authorize>
 

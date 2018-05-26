@@ -3,7 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<script src="<c:url value="/resources/js/controller.js" />"></script>
+<script src="<c:url value="/resources/js/cartController.js" />"></script>
 
 <div class="container-wrapper">
 	<div class="container">
@@ -16,12 +16,7 @@
 		</div>
 		
 		<section class="container" ng-app="cartApp">
-			<div ng-controller="cartCtrl" ng-init="initCartId('${cartId}')">
-
-				<a class="btn btn-warning pull-left" ng-click="clearCart()">
-					<i class="fa fa-trash"></i>
-					Clear Cart
-				</a>
+			<div ng-controller="cartController" ng-init="initCartId('${cartId}')">
 				
 				<br>
 				
@@ -40,15 +35,23 @@
 						<td>{{item.quantity}}</td>
 						<td>{{item.totalPrice}}</td>
 						<td>
-							<a class="btn btn-danger" ng-click="removeFromCart(item.product.id)">
-								<i class="fa fa-remove"></i>remove
-							</a>
-							<a class="btn btn-danger" ng-click="addToCart(item.product.id)">
-								<i class="fa fa-plus"></i>plus
-							</a>
-							<a class="btn btn-danger" ng-click="removeFromCart(item.product.id)">
-								<i class="fa fa-minus"></i>minus
-							</a>
+							<div class="row">
+								<div class="col-sm-3">
+									<a class="btn btn-danger" ng-click="removeFromCart(item.product.id)">
+										<i class="fa fa-remove"></i>
+									</a>
+								</div>
+								<div class="col-sm-3">
+									<a class="btn btn-warning" ng-click="plusItemFromCart(item.product.id)">
+										<i class="fa fa-plus"></i>
+									</a>
+								</div>
+								<div class="col-sm-3">
+									<a class="btn btn-warning" ng-click="minusItemFromCart(item.product.id)">
+										<i class="fa fa-minus"></i>
+									</a>
+								</div>
+							</div>
 						</td>
 					</tr>
 					
@@ -56,12 +59,18 @@
 						<td></td>
 						<td></td>
 						<td>Grand Total</td>
-						<td>{{calGrandTotal() }}</td>
+						<td>{{calGrandTotal()}}</td>
 						<td></td>
 					</tr>
 				</table>
 				
 				<a class="btn btn-info" href="<c:url value="/products" />" class="btn btn-default">Continue Shopping</a>
+				
+				<a class="btn btn-warning pull-left" ng-click="clearCart()">
+					<i class="fa fa-trash"></i>
+					Clear Cart
+				</a>
+
 			</div>
 		</section>
 	</div>

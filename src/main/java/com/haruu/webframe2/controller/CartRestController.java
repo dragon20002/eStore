@@ -3,6 +3,7 @@ package com.haruu.webframe2.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -37,26 +38,25 @@ public class CartRestController {
 	@Autowired
 	ProductService productService;
 
+	// CREATE
+	
+	// READ
 	@RequestMapping(value = "/{cartId}", method = RequestMethod.GET)
 	public ResponseEntity<Cart> getCartById(@PathVariable("cartId") int id) {
 		Cart cart = cartService.getCartById(id);
-		return new ResponseEntity<Cart>(cart, HttpStatus.OK);
+		
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setCacheControl("max-age=10");
+
+		return new ResponseEntity<>(cart, httpHeaders, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/{cartId}", method = RequestMethod.DELETE)
-	public ResponseEntity<Void> clearCart(@PathVariable("cartId") int id) {
-		Cart cart = cartService.getCartById(id);
-		cartItemService.deleteAllCartItem(cart);
-		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-	}
-	
-	@RequestMapping(value = "/add/{productId}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> addItem(@PathVariable(value="productId") int productId) {
+	// UPDATE
+	@RequestMapping(value = "/{productId}", method = RequestMethod.PUT)
+	public ResponseEntity<CartItem> addItem(@PathVariable(value="productId") int productId) {
 		Product product = productService.getProductById(productId);
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String username = authentication.getName();
-		
-		User user = userService.getUserByUsername(username);
+		User user = userService.getUserByUsername(authentication.getName());
 		Cart cart = user.getCart();
 		
 		// check if cart item for a given product already exists
@@ -64,11 +64,16 @@ public class CartRestController {
 		for (int i = 0; i < cartItems.size(); i++) {
 			if (product.getId() == cartItems.get(i).getProduct().getId()) {
 				CartItem cartItem = cartItems.get(i);
+
+				int quantity = cartItem.getQuantity() + 1;
+				if (quantity > product.getUnitInStock())
+					return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+				
 				cartItem.setQuantity(cartItem.getQuantity() + 1);
 				cartItem.setTotalPrice(product.getPrice() * cartItem.getQuantity());
 				cartItemService.addCartItem(cartItem);
 				
-				return new ResponseEntity<>(HttpStatus.OK);
+				return new ResponseEntity<>(cartItem, HttpStatus.OK);
 			}
 		}
 		
@@ -83,20 +88,50 @@ public class CartRestController {
 		cart.getCartItems().add(cartItem);
 		cartItemService.addCartItem(cartItem);
 
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(cartItem, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/cart_items/{productId}/{quantityDiff}", method=RequestMethod.PUT)
+	public ResponseEntity<CartItem> updateQuantityOfItem(
+			@PathVariable(value="productId") int productId,
+			@PathVariable(value="quantityDiff") int quantityDiff) {
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = userService.getUserByUsername(authentication.getName());
+		Cart cart = user.getCart();
+		
+		CartItem cartItem = cartItemService.getCartItemByProductId(cart.getId(), productId);
+		Product product = cartItem.getProduct();
+		
+		int quantity = cartItem.getQuantity() + quantityDiff;
+		if (quantity <= 0 || quantity > product.getUnitInStock())
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		
+		cartItem.setQuantity(quantity);
+		cartItem.setTotalPrice(product.getPrice() * quantity);
+
+		cartItemService.addCartItem(cartItem);
+
+		return new ResponseEntity<>(cartItem, HttpStatus.OK);
+	}
+	
+	// DELETE
+	@RequestMapping(value = "/{cartId}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> clearCart(@PathVariable("cartId") int id) {
+		Cart cart = cartService.getCartById(id);
+		cartItemService.deleteAllCartItem(cart);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
-	@RequestMapping(value = "/cartitem/{productId}", method=RequestMethod.DELETE)
+	@RequestMapping(value = "/cart_items/{productId}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> deleteItem(@PathVariable(value="productId") int productId) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String username = authentication.getName();
-		
-		User user = userService.getUserByUsername(username);
+		User user = userService.getUserByUsername(authentication.getName());
 		Cart cart = user.getCart();
 		
 		CartItem cartItem = cartItemService.getCartItemByProductId(cart.getId(), productId);
 		cartItemService.deleteCartItem(cartItem);
-		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 }

@@ -20,9 +20,7 @@ public class CartController {
 	@RequestMapping
 	public String getCart(Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String username = auth.getName();
-		
-		User user = userService.getUserByUsername(username);
+		User user = userService.getUserByUsername(auth.getName());
 		int cartId = user.getCart().getId();
 		
 		model.addAttribute("cartId", cartId);
