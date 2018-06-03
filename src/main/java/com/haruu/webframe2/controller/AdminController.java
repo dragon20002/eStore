@@ -142,6 +142,7 @@ public class AdminController {
 			try {
 				productImage.transferTo(new File(savePath.toString()));
 				product.setImageFilename(productImage.getOriginalFilename());
+				productService.addProduct(product);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
